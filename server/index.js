@@ -55,6 +55,6 @@ app.all('*', (req, res) => {
 })
 
 mongoose.connection.once('open', ()=>{
-  console.log('DB connected')
+  console.log(`DB connected ${mongoose.connection.name}`)
   app.listen(PORT, () => { console.log(`Listening on port ${PORT}`) })
 })

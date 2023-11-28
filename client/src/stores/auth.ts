@@ -64,13 +64,14 @@ export const useAuthStore = defineStore('auth', {
         await this.getUser()
         return data
       } catch (error: Error | any) {
+        console.log(error)
         throw error.message
       }
     },
 
     async register(payload: RegisterData){
       try {
-        const {data} = await useApi().post(`/api/auth/register`, payload);
+        const {data} = await useApi().post('/api/auth/register', payload);
         return data
       } catch (error: Error | any) {
         throw error.message

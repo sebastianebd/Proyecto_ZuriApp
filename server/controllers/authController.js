@@ -7,10 +7,10 @@ async function register(req, res){
   const {username, email, first_name, last_name, password, password_confirm} = req.body
 
   if(!username || !email || !password || !password_confirm || !first_name || !last_name) {
-    return res.status(422).json({'message': 'Invalid fields'})
+    return res.status(422).json({'mensaje': 'Campos Invalidos'})
   }
 
-  if(password !== password_confirm) return res.status(422).json({'message': 'Passwords do not match'})
+  if(password !== password_confirm) return res.status(422).json({'mensaje': 'Las contraseñas no son identicas'})
 
   const userExists = await User.exists({email}).exec()
 
@@ -23,22 +23,24 @@ async function register(req, res){
 
     return res.sendStatus(201)
   } catch (error) {
-    return res.status(400).json({message: "Could not register"})
+    console.log(error)
+    return res.status(400).json({mensaje: "No se pudo registrar"})
+    
   }
 }
 
 async function login(req, res){
   const {email, password } = req.body
 
-  if(!email || !password) return res.status(422).json({'message': 'Invalid fields'})
+  if(!email || !password) return res.status(422).json({'mensaje': 'Campos Invalidos'})
   
   const user = await User.findOne({email}).exec()
 
-  if(!user) return res.status(401).json({message: "Email or password is incorrect"})
+  if(!user) return res.status(401).json({mensaje: "Email o contraseña incorrecta"})
 
   const match = await bcrypt.compare(password, user.password)
 
-  if(!match) return res.status(401).json({message: "Email or password is incorrect"})
+  if(!match) return res.status(401).json({mensaje: "Email o contraseña incorrecta"})
 
   const accessToken = jwt.sign(
     {
