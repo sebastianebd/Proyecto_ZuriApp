@@ -31,14 +31,14 @@ const router = createRouter({
   ]
 })
 
-router.beforeResolve(async (to, from, next)=>{
+router.beforeResolve(async (to, from, next) => {
   const authStore = useAuthStore()
 
-  if(to.meta.requiresAuth && !authStore.isAuthenticated){   
-    return next({name: 'login', query: {redirect: to.fullPath}})
-  }else if(to.meta.requiresGuest && authStore.isAuthenticated){
-    return next({name: 'home'})
-  }else{
+  if (to.name !== 'login' && !authStore.isAuthenticated) {
+    // Si la ruta a la que se intenta acceder no es la de inicio de sesión y el usuario no está autenticado
+    return next({ name: 'login', query: { redirect: to.fullPath } })
+  } else {
+    // Si está autenticado o la ruta es la de inicio de sesión, permite el acceso
     return next()
   }
 })

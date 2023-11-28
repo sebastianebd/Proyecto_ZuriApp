@@ -1,18 +1,21 @@
 <template>
+  
   <div id="login">
+    <h6 class="card-title">Bievenid@ a ZuriApp</h6>
     <div class="container">
       <div class="card card-body mt-4">
-        <h5 class="card-title">Login</h5>
+
+        <h6 class="card-title">Login</h6>
         <form @submit.prevent="submit">
           <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
+            <label for="email" class="form-label">Email</label>
             <input v-model="loginData.email" type="email" class="form-control" id="email" autocomplete="off">
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input v-model="loginData.password" type="password" class="form-control" id="password">
           </div>
-          <button type="submit" class="btn btn-success">Login</button>
+          <button type="submit" class="btn btn-warning">Login</button>
         </form>
       </div>
     </div>
@@ -48,7 +51,15 @@ async function submit(){
 
 <style scoped>
 #login .card{
-  max-width: 40vw;
+  max-width: 25vw;
   margin: auto;
+}
+textarea:focus, input:focus, input[type]:focus {
+border-color: rgb(255, 144, 0);
+box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075)inset, 0 0 8px rgba(255,144,0,0.6);
+outline: 0 none;
+}
+.container {
+  margin-top: 7rem;
 }
 </style>

@@ -1,8 +1,9 @@
 <script setup lang="ts">
+
 </script>
 
 <template>
   <main>
-    <h1>Home page</h1>
+    <h1>BIENVENID@ A ZURIAPP</h1>
   </main>
 </template>
