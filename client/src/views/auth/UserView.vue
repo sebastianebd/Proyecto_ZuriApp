@@ -1,6 +1,9 @@
 <template>
   <div id="user">
     <div class="container">
+    <NavBar />
+    <Sidebar />
+    <RouterView />
       <Suspense>
         <template #default>
           <div v-if="user" class="card card-body mt-4">
@@ -23,6 +26,8 @@
 <script setup lang="ts">
 import { useAuthStore } from '../../stores/auth';
 import { computed, onMounted } from 'vue';
+import Sidebar from '../../components/SidebarMenu.vue'
+import NavBar from '../../components/NavBar.vue';
 
 const authStore = useAuthStore()
 
