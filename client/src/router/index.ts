@@ -37,13 +37,43 @@ const router = createRouter({
     {
       path: '/modificar',
       name: 'modificar',
-      component: () => import('../views/turnos/ModificarView.vue'),
+      component: () => import('../views/auth/ModificarView.vue'),
       meta: {requiresAuth: true}
     },
     {
       path: '/revertir',
       name: 'revertir',
-      component: () => import('../views/turnos/RevertirView.vue'),
+      component: () => import('../views/auth/RevertirView.vue'),
+      meta: {requiresAuth: true}
+    },
+    {
+      path: '/crear_usuario',
+      name: 'crear_usuario',
+      component: () => import('../views/auth/CrearUsuario.vue'),
+      meta: {requiresAuth: true}
+    },
+    {
+      path: '/modificar_usuario',
+      name: 'modificar_usuario',
+      component: () => import('../views/auth/ModificarUsuario.vue'),
+      meta: {requiresAuth: true}
+    },
+    {
+      path: '/eliminar_usuario',
+      name: 'eliminar_usuario',
+      component: () => import('../views/auth/EliminarUsuario.vue'),
+      meta: {requiresAuth: true}
+    },
+    {
+      path: '/ver_usuarios',
+      name: 'ver_usuarios',
+      component: () => import('../views/auth/VerUsuarios.vue'),
+      meta: {requiresAuth: true}
+    },
+    {
+      path: '/ver_historial',
+      name: 'ver_historial',
+      component: () => import('../views/auth/VerHistorial.vue'),
       meta: {requiresAuth: true}
     }
   ]

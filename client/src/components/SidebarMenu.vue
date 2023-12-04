@@ -13,15 +13,15 @@
 		<h3>Turnos</h3>
 		<div class="menu">
 			<router-link :to="{ name: 'crear' }" class="button">
-				<span class="material-icons">home</span>
+				<span class="material-icons">create</span>
 				<span class="text">Crear Reemplazo</span>
 			</router-link>
 			<router-link :to="{ name: 'modificar' }" class="button">
-				<span class="material-icons">description</span>
+				<span class="material-icons">edit_document</span>
 				<span class="text">Modicar Reemplazo</span>
 			</router-link>
 			<router-link :to="{ name: 'revertir' }" class="button">
-				<span class="material-icons">group</span>
+				<span class="material-icons">backspace</span>
 				<span class="text">Revertir Reemplazo</span>
 			</router-link>
 		</div>
@@ -29,19 +29,19 @@
 		<h3>Usuarios</h3>
 		<div class="menu">
 			<router-link to="crear_usuario" class="button" >
-				<span class="material-icons">home</span>
+				<span class="material-icons">person_add</span>
 				<span class="text">Crear Usuario</span>
 			</router-link>
 			<router-link to="/modificar_usuario" class="button">
-				<span class="material-icons">description</span>
+				<span class="material-icons">manage_accounts</span>
 				<span class="text">Modificar Usuario</span>
 			</router-link>
 			<router-link to="/eliminar_usuario" class="button">
-				<span class="material-icons">group</span>
+				<span class="material-icons">person_off</span>
 				<span class="text">Eliminar Usuario</span>
 			</router-link>
-			<router-link to="/ver_usuario" class="button">
-				<span class="material-icons">email</span>
+			<router-link to="/ver_usuarios" class="button">
+				<span class="material-icons">groups</span>
 				<span class="text">Ver Usuarios</span>
 			</router-link>
 		</div>
@@ -49,7 +49,7 @@
 		<h3>Historial</h3>
 		<div class="menu">
 			<router-link to="/ver_historial" class="button">
-				<span class="material-icons">home</span>
+				<span class="material-icons">view_list</span>
 				<span class="text">Ver Historial</span>
 			</router-link>
 		</div>

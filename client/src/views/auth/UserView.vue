@@ -1,7 +1,6 @@
 <template>
   <div id="user">
-    <NavBar />
-    <Sidebar />
+
     
     <div class="container">
     

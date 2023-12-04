@@ -6,6 +6,7 @@ import { RouterView } from 'vue-router'
 
 <template>
     <main >
+        USUARIO REGISTRADO!
     </main>
 </template>
 
