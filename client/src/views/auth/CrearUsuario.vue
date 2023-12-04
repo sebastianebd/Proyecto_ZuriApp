@@ -9,7 +9,7 @@
           <!-- Primer paso: Datos de usuario -->
           <div v-if="currentStep === 1">
             <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
+              <label for="username" class="form-label">Rut</label>
               <input v-model="registerData.username" type="text" class="form-control" id="username" autocomplete="off">
             </div>
             <div class="mb-3">

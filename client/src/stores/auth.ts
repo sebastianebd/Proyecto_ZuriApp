@@ -22,12 +22,19 @@ export interface LoginData {
 }
 
 export interface RegisterData {
-  username: string,
-  email: string,
-  first_name: string,
-  last_name: string
-  password: string,
-  password_confirm: string,
+  rut_saliente: string,
+  nombre_saliente: string,
+  apellido_saliente: string,
+
+  rut_entrante: string,
+  nombre_entrante: string,
+  apellido_entrante: string,
+
+  tipo_turno: string,
+  fecha_inicio:Date,
+  fecha_termino:Date,
+  servicio:string
+
 }
 
 

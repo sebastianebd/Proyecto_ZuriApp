@@ -27,8 +27,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '../../stores/auth';
 import { computed, onMounted } from 'vue';
-import Sidebar from '../../components/SidebarMenu.vue'
-import NavBar from '../../components/NavBar.vue';
+
 
 const authStore = useAuthStore()
 
