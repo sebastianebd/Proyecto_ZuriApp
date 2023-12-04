@@ -52,7 +52,7 @@ async function submit(){
 <style scoped>
 #login .card{
   max-width: 25vw;
-  margin: auto;
+  margin: left;
 }
 textarea:focus, input:focus, input[type]:focus {
 border-color: rgb(255, 144, 0);
@@ -60,6 +60,7 @@ box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075)inset, 0 0 8px rgba(255,144,0,0.6
 outline: 0 none;
 }
 .container {
-  margin-top: 7rem;
+  margin-top: 10rem;
+  padding-left: 18rem;
 }
 </style>

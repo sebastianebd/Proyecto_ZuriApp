@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-sm position-sticky" style="background-color:#CDCDCD">
+  <nav v-if="isAuthenticated" class="navbar navbar-expand-sm position-sticky" style="background-color:#CDCDCD">
   <div class="container-fluid">
     <!--<router-link class="navbar-brand" :to="{name: 'home'}">Navbar</router-link>-->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#appNavbar" aria-controls="appNavbar" aria-expanded="false" aria-label="Toggle navigation">

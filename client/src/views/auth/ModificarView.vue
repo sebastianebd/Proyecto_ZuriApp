@@ -1,7 +1,7 @@
 <template>
 
     <main>
-        CREAR REEMPLAZO
+        MODIFICAR REEMPLAZO
     </main>
 
 </template>

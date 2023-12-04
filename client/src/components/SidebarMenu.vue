@@ -1,5 +1,5 @@
 <template>
-	<aside :class="`${is_expanded ? 'is-expanded' : ''}`">
+	<aside v-if="isAuthenticated" :class="`${is_expanded ? 'is-expanded' : ''}`">
 		<div class="logo">
 			<img :src="logoURL" alt="Xu" /> 
 		</div>
@@ -60,40 +60,24 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed, defineEmits } from 'vue'
 import logoURL from '../assets/logo-zuri.png'
 import { useAuthStore } from '../stores/auth';
-import { computed } from 'vue';
-import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore()
 
-const router = useRouter()
-
-const user = computed(()=>{
-	return authStore.user
-})
-
-const isAuthenticated = computed(()=>{
-	return authStore.isAuthenticated
-})
-
-async function logout(){
-	await authStore.logout()
-    .then( res => {
-    	router.replace({name: 'login'})
-    })
-    .catch(err => {
-    	console.log(err.message)
-    })
-}
+const isAuthenticated = computed(() => authStore.isAuthenticated)
 
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
 
+const emitSidebarToggle = defineEmits(['sidebarToggle']);
 const ToggleMenu = () => {
 	is_expanded.value = !is_expanded.value
-	localStorage.setItem("is_expanded", is_expanded.value)
+	localStorage.setItem("is_expanded", is_expanded.value.toString())
+	emitSidebarToggle('sidebarToggle', is_expanded.value);
 }
+
+
 </script>
 
 <style lang="scss" scoped>
