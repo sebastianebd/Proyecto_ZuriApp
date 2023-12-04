@@ -12,15 +12,15 @@
 
 		<h3>Turnos</h3>
 		<div class="menu">
-			<router-link to="/crear" class="button">
+			<router-link :to="{ name: 'crear' }" class="button">
 				<span class="material-icons">home</span>
 				<span class="text">Crear Reemplazo</span>
 			</router-link>
-			<router-link to="/modificar" class="button">
+			<router-link :to="{ name: 'modificar' }" class="button">
 				<span class="material-icons">description</span>
 				<span class="text">Modicar Reemplazo</span>
 			</router-link>
-			<router-link to="/revertir" class="button">
+			<router-link :to="{ name: 'revertir' }" class="button">
 				<span class="material-icons">group</span>
 				<span class="text">Revertir Reemplazo</span>
 			</router-link>
@@ -28,7 +28,7 @@
 
 		<h3>Usuarios</h3>
 		<div class="menu">
-			<router-link to="crear_usuario" class="button">
+			<router-link to="crear_usuario" class="button" >
 				<span class="material-icons">home</span>
 				<span class="text">Crear Usuario</span>
 			</router-link>
@@ -59,9 +59,34 @@
 	</aside>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref } from 'vue'
 import logoURL from '../assets/logo-zuri.png'
+import { useAuthStore } from '../stores/auth';
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+
+const authStore = useAuthStore()
+
+const router = useRouter()
+
+const user = computed(()=>{
+	return authStore.user
+})
+
+const isAuthenticated = computed(()=>{
+	return authStore.isAuthenticated
+})
+
+async function logout(){
+	await authStore.logout()
+    .then( res => {
+    	router.replace({name: 'login'})
+    })
+    .catch(err => {
+    	console.log(err.message)
+    })
+}
 
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
 
@@ -76,9 +101,9 @@ aside {
 	display: flex;
 	flex-direction: column;
 	position: fixed;
-  	top: 0;
-  	left: 0;
-  	bottom: 0;
+	top: 0;
+	left: 0;
+
 
 	background-color: rgba(221, 102, 44);
 	color: var(--light);
@@ -164,7 +189,7 @@ aside {
 			}
 
 			&:hover {
-				background-color: rgb(191, 26, 33);
+				background-color: rgba(191, 26, 34, 0.48);
 
 				.material-icons, .text {
 					color: var(--primary);
@@ -172,7 +197,7 @@ aside {
 			}
 
 			&.router-link-exact-active {
-				background-color: var(--dark-alt);
+				background-color: rgb(191, 26, 33);
 				border-right: 5px solid var(--primary);
 
 				.material-icons, .text {

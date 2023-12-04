@@ -60,9 +60,4 @@ button {
 
 
 
-.content {
-  flex-grow: 1; /* Para que el contenido se expanda y ocupe todo el espacio disponible */
-  padding: 20px; /* Ajusta el espaciado según sea necesario */
-  overflow-y: auto; /* Agregar scroll si el contenido excede el tamaño */
-}
 </style>

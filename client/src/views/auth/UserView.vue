@@ -1,9 +1,11 @@
 <template>
   <div id="user">
-    <div class="container">
     <NavBar />
     <Sidebar />
-    <RouterView />
+    
+    <div class="container">
+    
+      
       <Suspense>
         <template #default>
           <div v-if="user" class="card card-body mt-4">

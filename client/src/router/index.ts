@@ -27,6 +27,24 @@ const router = createRouter({
       name: 'user',
       component: () => import('../views/auth/UserView.vue'),
       meta: {requiresAuth: true}
+    },
+    {
+      path: '/crear',
+      name: 'crear',
+      component: () => import('../views/auth/CrearView.vue'),
+      meta: {requiresAuth: true}
+    },
+    {
+      path: '/modificar',
+      name: 'modificar',
+      component: () => import('../views/turnos/ModificarView.vue'),
+      meta: {requiresAuth: true}
+    },
+    {
+      path: '/revertir',
+      name: 'revertir',
+      component: () => import('../views/turnos/RevertirView.vue'),
+      meta: {requiresAuth: true}
     }
   ]
 })
