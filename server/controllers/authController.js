@@ -1,25 +1,61 @@
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'zuri.app01@gmail.com',
+    pass: 'password2023!'
+  }
+});
 
 
 async function register(req, res){
-  const {username, email, first_name, last_name, password, password_confirm} = req.body
+  const {rut, nombre, apellido, fecha_nac, direccion, telefono, email, ciudad, habilitado, tipo_cargo} = req.body
 
-  if(!username || !email || !password || !password_confirm || !first_name || !last_name) {
+  /*if(!username || !email || !password || !password_confirm || !first_name || !last_name) {
     return res.status(422).json({'mensaje': 'Campos Invalidos'})
   }
 
-  if(password !== password_confirm) return res.status(422).json({'mensaje': 'Las contraseñas no son identicas'})
-
-  const userExists = await User.exists({email}).exec()
-
-  if(userExists) return res.sendStatus(409)
+  if(password !== password_confirm) return res.status(422).json({'mensaje': 'Las contraseñas no son identicas'})*/
 
   try {
-    hashedPassword = await bcrypt.hash(password, 10)
+    const [rutExists, telefonoExist, emailExist] = await Promise.all([
+      User.exists({ rut }).exec(),
+      User.exists({ telefono }).exec(),
+      User.exists({ email }).exec()
+    ]);
+  
+    if (rutExists || telefonoExist || emailExist) {
+      return res.sendStatus(409);
+    }
+  } catch (error) {
+    return res.status(500).send("Error en el servidor");
+  }
 
-    await User.create({email, username, password: hashedPassword, first_name, last_name})
+
+  try {
+    const generarPassword = crypto.randomBytes(3).toString('hex');
+    hashedPassword = await bcrypt.hash(generarPassword, 10)
+
+    await User.create({rut, nombre, apellido ,generarPassword: hashedPassword, fecha_nac, direccion, telefono, email, ciudad, habilitado, tipo_cargo})
+
+    const mailOptions = {
+      from: 'zuri.app01@gmail.com',
+      to: email, // Usar el correo del usuario
+      subject: 'Contraseña generada automáticamente',
+      text: `¡Hola ${nombre}! Tu contraseña generada automáticamente es: ${generarPassword}. Recuerda cambiarla después de iniciar sesión.`
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Correo enviado: ' + info.response);
+      }
+    });
 
     return res.sendStatus(201)
   } catch (error) {

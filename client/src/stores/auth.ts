@@ -21,7 +21,7 @@ export interface LoginData {
   password: string
 }
 
-export interface RegisterData {
+export interface RegisterDataTurno {
   rut_saliente: string,
   nombre_saliente: string,
   apellido_saliente: string,
@@ -34,6 +34,20 @@ export interface RegisterData {
   fecha_inicio:Date,
   fecha_termino:Date,
   servicio:string
+
+}
+
+export interface RegisterData {
+  rut: string,
+  nombre: string,
+  apellido: string,
+  fecha_nac: Date,
+  direccion: string,
+  telefono: number,
+  email: string,
+  ciudad:string,
+  habilitado:string,
+  tipo_cargo:string
 
 }
 
