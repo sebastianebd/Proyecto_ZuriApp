@@ -2,6 +2,7 @@ const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -39,8 +40,8 @@ async function register(req, res){
   try {
     const generarPassword = crypto.randomBytes(3).toString('hex');
     hashedPassword = await bcrypt.hash(generarPassword, 10)
-
-    await User.create({rut, nombre, apellido ,generarPassword: hashedPassword, fecha_nac, direccion, telefono, email, ciudad, habilitado, tipo_cargo})
+    console.log(generarPassword);
+    await User.create({rut, nombre, apellido, fecha_nac, direccion, telefono, email, ciudad, habilitado, tipo_cargo ,password: hashedPassword})
 
     const mailOptions = {
       from: 'zuri.app01@gmail.com',
@@ -66,11 +67,11 @@ async function register(req, res){
 }
 
 async function login(req, res){
-  const {email, password } = req.body
+  const {rut, password } = req.body
 
-  if(!email || !password) return res.status(422).json({'mensaje': 'Campos Invalidos'})
+  if(!rut || !password) return res.status(422).json({'mensaje': 'Campos Invalidos'})
   
-  const user = await User.findOne({email}).exec()
+  const user = await User.findOne({rut}).exec()
 
   if(!user) return res.status(401).json({mensaje: "Email o contraseña incorrecta"})
 

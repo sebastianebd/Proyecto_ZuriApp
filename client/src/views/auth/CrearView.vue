@@ -10,15 +10,15 @@
             <div v-if="currentStep === 1">
               <div class="mb-3">
                 <label for="username" class="form-label">Rut</label>
-                <input v-model="registerData.rut_saliente" type="text" class="form-control" id="username" autocomplete="off">
+                <input v-model="registerDataTurno.rut_saliente" type="text" class="form-control" id="username" autocomplete="off">
               </div>
               <div class="mb-3">
                 <label for="first_name" class="form-label">Nombre</label>
-                <input v-model="registerData.nombre_saliente" type="text" class="form-control" id="first_name" autocomplete="off">
+                <input v-model="registerDataTurno.nombre_saliente" type="text" class="form-control" id="first_name" autocomplete="off">
               </div>
               <div class="mb-3">
                 <label for="last_name" class="form-label">Apellido</label>
-                <input v-model="registerData.apellido_saliente" type="text" class="form-control" id="last_name" autocomplete="off">
+                <input v-model="registerDataTurno.apellido_saliente" type="text" class="form-control" id="last_name" autocomplete="off">
               </div>
               <button @click.prevent="nextStep" class="btn btn-primary">Siguiente</button>
             </div>
@@ -27,15 +27,15 @@
             <div v-if="currentStep === 2">
               <div class="mb-3">
                 <label for="username" class="form-label">Rut</label>
-                <input v-model="registerData.rut_entrante" type="text" class="form-control" id="username" autocomplete="off">
+                <input v-model="registerDataTurno.rut_entrante" type="text" class="form-control" id="username" autocomplete="off">
               </div>
               <div class="mb-3">
                 <label for="first_name" class="form-label">Nombre</label>
-                <input v-model="registerData.nombre_entrante" type="text" class="form-control" id="first_name" autocomplete="off">
+                <input v-model="registerDataTurno.nombre_entrante" type="text" class="form-control" id="first_name" autocomplete="off">
               </div>
               <div class="mb-3">
                 <label for="last_name" class="form-label">Apellido</label>
-                <input v-model="registerData.apellido_entrante" type="text" class="form-control" id="last_name" autocomplete="off">
+                <input v-model="registerDataTurno.apellido_entrante" type="text" class="form-control" id="last_name" autocomplete="off">
               </div>
               <button @click.prevent="nextStep" class="btn btn-primary">Siguiente</button>
             </div>
@@ -47,19 +47,19 @@
             <div v-if="currentStep === 3">
               <div class="mb-3">
                 <label for="username" class="form-label">Tipo Turno</label>
-                <input v-model="registerData.tipo_turno" type="text" class="form-control" id="username" autocomplete="off">
+                <input v-model="registerDataTurno.tipo_turno" type="text" class="form-control" id="username" autocomplete="off">
               </div>
               <div class="mb-3">
                 <label for="first_name" class="form-label">Fecha Inicio</label>
-                <input v-model="registerData.fecha_inicio" type="date" class="form-control" id="first_name" autocomplete="off">
+                <input v-model="registerDataTurno.fecha_inicio" type="date" class="form-control" id="first_name" autocomplete="off">
               </div>
               <div class="mb-3">
                 <label for="last_name" class="form-label">Fecha Termino</label>
-                <input v-model="registerData.fecha_termino" type="date" class="form-control" id="last_name" autocomplete="off">
+                <input v-model="registerDataTurno.fecha_termino" type="date" class="form-control" id="last_name" autocomplete="off">
               </div>
               <div class="mb-3">
                 <label for="last_name" class="form-label">Servicio</label>
-                <input v-model="registerData.servicio" type="text" class="form-control" id="last_name" autocomplete="off">
+                <input v-model="registerDataTurno.servicio" type="text" class="form-control" id="last_name" autocomplete="off">
               </div>
               <button @click.prevent="submit" class="btn btn-success">Guardar</button>
             </div>
@@ -73,7 +73,7 @@
   </template>
     
     <script setup lang="ts">
-    import { useAuthStore, type RegisterData } from '../../stores/auth';
+    import { useAuthStore, type RegisterDataTurno } from '../../stores/auth';
     import { reactive, ref } from 'vue';
     import { useRouter } from 'vue-router';
     
@@ -82,7 +82,7 @@
     
   
   
-    const registerData = reactive<RegisterData>({
+    const registerDataTurno = reactive<RegisterDataTurno>({
       rut_saliente: "",
       nombre_saliente: "",
       apellido_saliente: "",
@@ -111,7 +111,7 @@
         currentStep.value++;
       } else if (currentStep.value === 3) {
         // Lógica para manejar el tercer paso (password)
-        await authStore.register(registerData)
+        await authStore.registerTurno(registerDataTurno)
           .then(res => {
             router.replace({ name: "home" });
           })

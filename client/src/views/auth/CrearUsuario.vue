@@ -78,7 +78,7 @@ const errorMessage = ref<string>("")
 async function submit(){
   await authStore.register(registerData)
     .then(res => {
-      router.replace({name: "login"})
+      router.replace({name: "home"})
     })
     .catch(err => {
       errorMessage.value = err.message

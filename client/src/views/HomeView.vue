@@ -4,7 +4,7 @@
 
 <template>
     <main >
-        USUARIO REGISTRADO!
+        BIENVENIDO A ZURIAPP
     </main>
 </template>
 

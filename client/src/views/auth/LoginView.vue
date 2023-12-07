@@ -8,8 +8,8 @@
         <h6 class="card-title">Login</h6>
         <form @submit.prevent="submit">
           <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input v-model="loginData.email" type="email" class="form-control" id="email" autocomplete="off">
+            <label for="email" class="form-label">Rut</label>
+            <input v-model="loginData.rut" type="text" class="form-control" id="email" autocomplete="off">
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
@@ -31,7 +31,7 @@ const authStore = useAuthStore()
 const router = useRouter()
 
 const loginData = reactive<LoginData>({
-  email: "",
+  rut: "",
   password: "",
 })
 

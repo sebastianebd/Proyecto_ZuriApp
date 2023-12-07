@@ -3,11 +3,16 @@ import {useApi, useApiPrivate} from "../composables/useApi"
 
 export interface User{
   id: number,
-  username: string,
+  rut: string,
+  nombre: string,
+  apellido: string,
+  fecha_nac: Date,
+  direccion: string,
+  telefono: number,
   email: string,
-  first_name: string,
-  last_name: string,
-  full_name?: string
+  ciudad:string,
+  habilitado:string,
+  tipo_cargo:string
 }
 
 export interface State{
@@ -17,7 +22,7 @@ export interface State{
 }
 
 export interface LoginData {
-  email: string,
+  rut: string,
   password: string
 }
 
@@ -25,11 +30,9 @@ export interface RegisterDataTurno {
   rut_saliente: string,
   nombre_saliente: string,
   apellido_saliente: string,
-
   rut_entrante: string,
   nombre_entrante: string,
   apellido_entrante: string,
-
   tipo_turno: string,
   fecha_inicio:Date,
   fecha_termino:Date,
@@ -93,6 +96,15 @@ export const useAuthStore = defineStore('auth', {
     async register(payload: RegisterData){
       try {
         const {data} = await useApi().post('/api/auth/register', payload);
+        return data
+      } catch (error: Error | any) {
+        throw error.message
+      }
+    },
+
+    async registerTurno(payload: RegisterDataTurno){
+      try {
+        const {data} = await useApi().post('/api/auth/registerTurno', payload);
         return data
       } catch (error: Error | any) {
         throw error.message

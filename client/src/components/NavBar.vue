@@ -14,12 +14,12 @@
       <ul class="navbar-nav mb-2 mb-lg-0">
         <li v-if="isAuthenticated" class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
-            {{ user.username }}
+            {{ user.nombre +" "+user.apellido }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><router-link :to="{name: 'user'}" class="dropdown-item">Profile</router-link></li>
+            <li><router-link :to="{name: 'user'}" class="dropdown-item">Ver Perfil</router-link></li>
             <li><hr class="dropdown-divider"></li>
-            <li><button @click="logout" class="dropdown-item btn btn-danger">Logout</button></li>
+            <li><button @click="logout" class="dropdown-item btn btn-danger">Salir</button></li>
           </ul>
         </li>
         <template v-else>
