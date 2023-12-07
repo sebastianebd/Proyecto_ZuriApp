@@ -26,7 +26,7 @@ export interface LoginData {
   password: string
 }
 
-export interface RegisterDataTurno {
+export interface RegisterDataReemplazo {
   rut_saliente: string,
   nombre_saliente: string,
   apellido_saliente: string,
@@ -102,9 +102,9 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    async registerTurno(payload: RegisterDataTurno){
+    async registerReemplazo(payload: RegisterDataReemplazo){
       try {
-        const {data} = await useApi().post('/api/auth/registerTurno', payload);
+        const {data} = await useApi().post('/api/auth/registerReemplazo', payload);
         return data
       } catch (error: Error | any) {
         throw error.message

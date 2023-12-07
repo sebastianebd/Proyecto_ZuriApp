@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const Reemplazo = require ('../models/Reemplazo')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer');
@@ -12,15 +13,9 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-
+//FUNCION PARA REGISTRO DE USUARIOS
 async function register(req, res){
   const {rut, nombre, apellido, fecha_nac, direccion, telefono, email, ciudad, habilitado, tipo_cargo} = req.body
-
-  /*if(!username || !email || !password || !password_confirm || !first_name || !last_name) {
-    return res.status(422).json({'mensaje': 'Campos Invalidos'})
-  }
-
-  if(password !== password_confirm) return res.status(422).json({'mensaje': 'Las contraseñas no son identicas'})*/
 
   try {
     const [rutExists, telefonoExist, emailExist] = await Promise.all([
@@ -35,7 +30,6 @@ async function register(req, res){
   } catch (error) {
     return res.status(500).send("Error en el servidor");
   }
-
 
   try {
     const generarPassword = crypto.randomBytes(3).toString('hex');
@@ -66,6 +60,25 @@ async function register(req, res){
   }
 }
 
+
+//FUNCION PARA REGISTRO DE TURNOS
+async function registerReemplazo(req, res){
+  const {rut_saliente, nombre_saliente, apellido_saliente, rut_entrante, nombre_entrante, apellido_entrante,
+         tipo_turno, fecha_inicio, fecha_termino, servicio} = req.body
+
+  try {
+    await Reemplazo.create({rut_saliente, nombre_saliente, apellido_saliente, rut_entrante, nombre_entrante, apellido_entrante,
+      tipo_turno, fecha_inicio, fecha_termino, servicio})
+
+    return res.sendStatus(201)
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({mensaje: "No se pudo registrar"})
+    
+  }
+}
+
+//FUNCION PARA INICIAR SESION
 async function login(req, res){
   const {rut, password } = req.body
 
@@ -106,6 +119,8 @@ async function login(req, res){
   res.json({access_token: accessToken})
 }
 
+
+//FUNCION PARA CERRAR SESION
 async function logout(req, res){
   const cookies = req.cookies
 
@@ -161,5 +176,5 @@ async function user(req, res){
   return res.status(200).json(user)
 }
 
-module.exports = {register, login, logout, refresh, user}
+module.exports = {register, registerReemplazo, login, logout, refresh, user}
 
