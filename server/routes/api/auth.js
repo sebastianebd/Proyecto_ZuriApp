@@ -14,6 +14,10 @@ router.post('/logout', authControllers.logout)
 
 router.post('/refresh', authControllers.refresh)
 
+router.get('/reemplazos', authControllers.mostrarReemplazos)
+
 router.get('/user', authMiddleware, authControllers.user)
+
+router.delete('/eliminarReemplazo/:id', authControllers.eliminarReemplazo)
 
 module.exports = router

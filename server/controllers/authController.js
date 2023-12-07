@@ -64,7 +64,7 @@ async function register(req, res){
 //FUNCION PARA REGISTRO DE TURNOS
 async function registerReemplazo(req, res){
   const {rut_saliente, nombre_saliente, apellido_saliente, rut_entrante, nombre_entrante, apellido_entrante,
-         tipo_turno, fecha_inicio, fecha_termino, servicio} = req.body
+        tipo_turno, fecha_inicio, fecha_termino, servicio} = req.body
 
   try {
     await Reemplazo.create({rut_saliente, nombre_saliente, apellido_saliente, rut_entrante, nombre_entrante, apellido_entrante,
@@ -75,6 +75,38 @@ async function registerReemplazo(req, res){
     console.log(error)
     return res.status(400).json({mensaje: "No se pudo registrar"})
     
+  }
+}
+
+//FUNCION PARA MOSTRAR REEMPLAZOS
+async function mostrarReemplazos(req, res){
+
+  try {
+    const datos = await Reemplazo.find();
+    res.json(datos);
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({mensaje: error})
+    
+  }
+}
+
+//FUNCION PARA ELIMINAR REEMPLAZO
+async function eliminarReemplazo(req, res) {
+  const reemplazoId = req.params.id; // Obtener el ID del parámetro de la URL
+
+  try {
+    const reemplazoEliminado = await Reemplazo.findByIdAndDelete(reemplazoId);
+
+    if (!reemplazoEliminado) {
+      return res.status(404).json({ mensaje: 'Reemplazo no encontrado' });
+    }
+    const datos = await Reemplazo.find();
+    res.json(datos);
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ mensaje: error });
   }
 }
 
@@ -176,5 +208,5 @@ async function user(req, res){
   return res.status(200).json(user)
 }
 
-module.exports = {register, registerReemplazo, login, logout, refresh, user}
+module.exports = {register, registerReemplazo, login, logout, refresh, user, mostrarReemplazos, eliminarReemplazo}
 

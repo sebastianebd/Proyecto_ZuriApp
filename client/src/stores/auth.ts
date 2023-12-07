@@ -111,10 +111,28 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    async eliminarReemplazo(id: string) {
+      try {
+        const { data } = await useApiPrivate().delete(`/api/auth/eliminarReemplazo/${id}`);
+        return data;
+      } catch (error: Error | any) {
+        throw error.message;
+      }
+    },
+
     async getUser(){
       try {
         const {data} = await useApiPrivate().get(`/api/auth/user`);
         this.user = data
+        return data
+      } catch (error: Error | any) {
+        throw error.message
+      }
+    },
+
+    async mostrarReemplazos(){
+      try {
+        const {data} = await useApiPrivate().get(`/api/auth/reemplazos`);
         return data
       } catch (error: Error | any) {
         throw error.message

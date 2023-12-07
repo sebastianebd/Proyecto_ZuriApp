@@ -38,7 +38,6 @@ import { computed, onMounted } from 'vue';
 const authStore = useAuthStore()
 
 const user = computed(()=>{
-  console.log(authStore.userDetail)
   return authStore.userDetail
 })
 

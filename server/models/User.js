@@ -6,7 +6,8 @@ const UserSchema = Schema(
   {
     rut:{
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
 
     nombre: {
@@ -31,7 +32,8 @@ const UserSchema = Schema(
 
     telefono: {
       type: Number,
-      required: true
+      required: true,
+      unique: true
     },
     email:{
       type: String,
