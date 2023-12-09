@@ -110,18 +110,37 @@ async function eliminarReemplazo(req, res) {
   }
 }
 
+//FUNCION PARA ACTUALIZAR REEMPLAZO
+async function actualizarReemplazo(req, res) {
+  const reemplazoId = req.params.id; // Obtener el ID del parámetro de la URL
+  const {rut_saliente, nombre_saliente, apellido_saliente, rut_entrante, nombre_entrante, apellido_entrante,
+    tipo_turno, fecha_inicio, fecha_termino, servicio} = req.body
+
+  try {
+    const reemplazoActualizado = await Reemplazo.findByIdAndUpdate(reemplazoId,{rut_saliente, nombre_saliente, apellido_saliente, rut_entrante, nombre_entrante, apellido_entrante,
+      tipo_turno, fecha_inicio, fecha_termino, servicio},{new:true});
+
+    if (!reemplazoActualizado) {
+      return res.status(404).json({ mensaje: 'Reemplazo no encontrado' });
+    }
+    const datos = await Reemplazo.find();
+    res.json(datos);
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ mensaje: error });
+  }
+}
+
 //FUNCION PARA INICIAR SESION
 async function login(req, res){
   const {rut, password } = req.body
-
   if(!rut || !password) return res.status(422).json({'mensaje': 'Campos Invalidos'})
   
   const user = await User.findOne({rut}).exec()
-
   if(!user) return res.status(401).json({mensaje: "Email o contraseña incorrecta"})
 
   const match = await bcrypt.compare(password, user.password)
-
   if(!match) return res.status(401).json({mensaje: "Email o contraseña incorrecta"})
 
   const accessToken = jwt.sign(
@@ -173,6 +192,9 @@ async function logout(req, res){
   res.sendStatus(204)
 }
 
+
+
+
 async function refresh(req, res){
   const cookies = req.cookies
   if(!cookies.refresh_token) return res.sendStatus(401)
@@ -208,5 +230,5 @@ async function user(req, res){
   return res.status(200).json(user)
 }
 
-module.exports = {register, registerReemplazo, login, logout, refresh, user, mostrarReemplazos, eliminarReemplazo}
+module.exports = {register, registerReemplazo, login, logout, refresh, user, mostrarReemplazos, eliminarReemplazo, actualizarReemplazo}
 

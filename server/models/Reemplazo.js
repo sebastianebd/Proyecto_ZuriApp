@@ -6,51 +6,61 @@ const ReemplazoSchema = Schema(
   {
     rut_saliente:{
       type: String,
-      required: true
+      required: true,
+      uppercase: true
     },
 
     nombre_saliente: {
       type: String,
-      required: true
+      required: true,
+      uppercase: true
     },
 
     apellido_saliente: {
       type: String,
-      required: true
+      required: true,
+      uppercase: true
     },
     rut_entrante:{
       type: String,
-      required: true
+      required: true,
+      uppercase: true
     },
 
     nombre_entrante: {
       type: String,
-      required: true
+      required: true,
+      uppercase: true
     },
 
     apellido_entrante: {
       type: String,
-      required: true
+      required: true,
+      uppercase: true
     },
 
     tipo_turno: {
       type: String,
-      required: true
+      required: true,
+      uppercase: true
     },
 
     fecha_inicio: {
       type: Date,
-      required: true
+      required: true,
+      uppercase: true
     },
 
     fecha_termino: {
       type: Date,
-      required: true
+      required: true,
+      uppercase: true
     },
 
     servicio: {
       type: String,
-      required: true
+      required: true,
+      uppercase: true
     },
 
     refresh_token: String

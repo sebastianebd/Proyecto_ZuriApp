@@ -111,6 +111,15 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    async actualizarReemplazo(reemplazoId: string, payload: RegisterDataReemplazo){
+      try {
+        const {data} = await useApi().put(`/api/auth/actualizarReemplazo/${reemplazoId}`, payload);
+        return data
+      } catch (error: Error | any) {
+        throw error.message
+      }
+    },
+
     async eliminarReemplazo(id: string) {
       try {
         const { data } = await useApiPrivate().delete(`/api/auth/eliminarReemplazo/${id}`);

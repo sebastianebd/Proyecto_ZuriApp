@@ -38,7 +38,7 @@ const UserSchema = Schema(
     email:{
       type: String,
       required: true,
-      lowercase: true,
+      uppercase: true,
       trim: true,
       unique: false, // cambiara  true
       validate: [
