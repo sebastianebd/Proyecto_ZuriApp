@@ -148,6 +148,21 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    async mostrarOpciones() {
+      try {
+          const servicios = await useApiPrivate().get(`/api/auth/servicios`);
+          const tiposTurno = await useApiPrivate().get(`/api/auth/tipoTurnos`);
+    
+          return {
+              servicios: servicios.data,
+              tiposTurno: tiposTurno.data
+          };
+      } catch (error: Error | any) {
+          throw error.message;
+      }
+    },
+
+
     async logout(){
       try {
         const {data} = await useApiPrivate().post(`/api/auth/logout`);

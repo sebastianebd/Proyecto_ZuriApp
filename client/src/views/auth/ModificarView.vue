@@ -86,7 +86,9 @@
             <!-- Columna derecha con 5 campos -->
             <div class="mb-3">
               <label for="tipoTurno" class="form-label form-label-sm">Tipo Turno</label>
-              <input type="text" v-model="registroActual.tipo_turno" class="form-control form-control-sm">
+              <select v-model="registroActual.tipo_turno" class="form-control form-control-sm">
+                <option v-for="turno in listaDeTurnos" :key="turno" :value="turno">{{ turno }}</option>
+              </select>
             </div>
             <div class="mb-3">
                 <label for="nombreSaliente" class="form-label form-label-sm">Fecha Inicio</label>
@@ -98,7 +100,9 @@
               </div>
               <div class="mb-3">
                 <label for="nombreSaliente" class="form-label form-label-sm">Servicio</label>
-                <input type="text" v-model="registroActual.servicio" class="form-control form-control-sm">
+                <select v-model="registroActual.servicio" class="form-control form-control-sm">
+                  <option v-for="servicio in listaDeServicios" :key="servicio" :value="servicio">{{ servicio }}</option>
+                </select>
               </div>
           </div>
         </div>
@@ -119,9 +123,15 @@ import { onMounted, ref } from 'vue';
 
 const authStore = useAuthStore();
 const user = ref<any[]>([]); 
+const listaDeTurnos = ref<string[]>([]);
+const listaDeServicios = ref<string[]>([]);
 
 onMounted(async () => {
+  const opciones = await authStore.mostrarOpciones();
     user.value = await authStore.mostrarReemplazos();
+
+    listaDeTurnos.value = opciones.tiposTurno
+    listaDeServicios.value = opciones.servicios
 });
 
 const eliminar = async (index: number) => {
@@ -139,8 +149,7 @@ const formatearFecha = (fecha: string) => {
 const mostrarModal = (index: number) => {
   modalVisible.value = true;
   const { fecha_inicio, fecha_termino, ...resto } = user.value[index];
-  registroActual.value = {
-    ...resto,
+  registroActual.value = {...resto,
     fecha_inicio: fecha_inicio.slice(0, 10),
     fecha_termino: fecha_termino.slice(0, 10),
   };

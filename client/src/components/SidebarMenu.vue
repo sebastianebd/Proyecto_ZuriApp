@@ -18,12 +18,9 @@
 			</router-link>
 			<router-link :to="{ name: 'modificar' }" class="button">
 				<span class="material-icons">edit_document</span>
-				<span class="text">Modicar Reemplazo</span>
+				<span class="text">Reemplazos</span>
 			</router-link>
-			<router-link :to="{ name: 'revertir' }" class="button">
-				<span class="material-icons">backspace</span>
-				<span class="text">Revertir Reemplazo</span>
-			</router-link>
+
 		</div>
 
 		<h3>Usuarios</h3>

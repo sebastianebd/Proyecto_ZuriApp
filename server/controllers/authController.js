@@ -1,6 +1,7 @@
 const User = require('../models/User')
 const Reemplazo = require ('../models/Reemplazo')
 const jwt = require('jsonwebtoken')
+const Option = require ('../models/OpcionesComboBox')
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
@@ -132,6 +133,32 @@ async function actualizarReemplazo(req, res) {
   }
 }
 
+async function mostrarServicios(req, res) {
+  try {
+    const servicios = await Option.findOne({ nombre: "SERVICIOS" }, 'opciones');
+    if (!servicios) {
+      return res.status(404).json({ mensaje: 'No se encontraron servicios' });
+    }
+    res.json(servicios.opciones);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ mensaje: 'Error al obtener servicios' });
+  }
+}
+
+async function mostrarTipoTurnos(req, res) {
+    try {
+      const tipoTurno = await Option.findOne({ nombre: "TIPO_TURNO" }, 'opciones');
+      if (!tipoTurno) {
+        return res.status(404).json({ mensaje: 'No se encontraron servicios' });
+      }
+      res.json(tipoTurno.opciones);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ mensaje: 'Error al obtener servicios' });
+    }
+  }
+
 //FUNCION PARA INICIAR SESION
 async function login(req, res){
   const {rut, password } = req.body
@@ -230,5 +257,6 @@ async function user(req, res){
   return res.status(200).json(user)
 }
 
-module.exports = {register, registerReemplazo, login, logout, refresh, user, mostrarReemplazos, eliminarReemplazo, actualizarReemplazo}
+module.exports = {register, registerReemplazo, login, logout, refresh, user, mostrarReemplazos, eliminarReemplazo, actualizarReemplazo,
+  mostrarServicios, mostrarTipoTurnos}
 
