@@ -12,11 +12,7 @@
 
 		<h3>Turnos</h3>
 		<div class="menu">
-			<router-link :to="{ name: 'crear' }" class="button">
-				<span class="material-icons">create</span>
-				<span class="text">Crear Reemplazo</span>
-			</router-link>
-			<router-link :to="{ name: 'modificar' }" class="button">
+			<router-link :to="{ name: 'reemplazos' }" class="button">
 				<span class="material-icons">edit_document</span>
 				<span class="text">Reemplazos</span>
 			</router-link>

@@ -92,6 +92,17 @@ async function mostrarReemplazos(req, res){
   }
 }
 
+//FUNCION PARA MOSTRAR USUARIOS "TENS"
+async function mostrarUsuarios(req, res){
+  try {
+    const usuariosEnfermeros = await User.find({ tipo_cargo: 'TENS' });
+    res.json(usuariosEnfermeros);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ mensaje: error });
+  }
+}
+
 //FUNCION PARA ELIMINAR REEMPLAZO
 async function eliminarReemplazo(req, res) {
   const reemplazoId = req.params.id; // Obtener el ID del parámetro de la URL
@@ -258,5 +269,5 @@ async function user(req, res){
 }
 
 module.exports = {register, registerReemplazo, login, logout, refresh, user, mostrarReemplazos, eliminarReemplazo, actualizarReemplazo,
-  mostrarServicios, mostrarTipoTurnos}
+  mostrarServicios, mostrarTipoTurnos, mostrarUsuarios}
 

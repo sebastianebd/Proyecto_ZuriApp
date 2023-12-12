@@ -35,9 +35,9 @@ const router = createRouter({
       meta: {requiresAuth: true}
     },
     {
-      path: '/modificar',
-      name: 'modificar',
-      component: () => import('../views/auth/ModificarView.vue'),
+      path: '/reemplazos',
+      name: 'reemplazos',
+      component: () => import('../views/auth/ReemplazosView.vue'),
       meta: {requiresAuth: true}
     },
     {

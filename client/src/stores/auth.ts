@@ -148,6 +148,15 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    async mostrarUsuarios(){
+      try {
+        const {data} = await useApiPrivate().get(`/api/auth/usuarios`);
+        return data
+      } catch (error: Error | any) {
+        throw error.message
+      }
+    },
+
     async mostrarOpciones() {
       try {
           const servicios = await useApiPrivate().get(`/api/auth/servicios`);

@@ -47,9 +47,11 @@
           </div>
           <button type="submit" class="btn btn-success">Register</button>
         </form>
+        
       </div>
     </div>
   </div>
+
 </template>
 
 <script setup lang="ts">

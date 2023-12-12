@@ -1,10 +1,13 @@
 <template>
     <main>
-      <div class="card">
+      <router-link :to="{ name: 'crear' }" class="btn btn-primary btn-md mb-3">
+        <span class="text">+ Crear Reemplazo</span>
+      </router-link>
+      <div class="card mt-2">
         <div class="card-body">
           <h5 class="card-title m-b-0">Reemplazos</h5>
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive" >
           <table class="table table-bordered table-sm">
             <thead class="thead-light">
               <tr>

@@ -18,6 +18,8 @@ router.put('/actualizarReemplazo/:id', authControllers.actualizarReemplazo)
 
 router.get('/reemplazos', authControllers.mostrarReemplazos)
 
+router.get('/usuarios', authControllers.mostrarUsuarios)
+
 router.get('/servicios', authControllers.mostrarServicios)
 
 router.get('/tipoTurnos', authControllers.mostrarTipoTurnos)
