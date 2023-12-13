@@ -148,6 +148,15 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    async mostrarHistorial(){
+      try {
+        const {data} = await useApiPrivate().get(`/api/auth/historial`);
+        return data
+      } catch (error: Error | any) {
+        throw error.message
+      }
+    },
+
     async mostrarUsuarios(){
       try {
         const {data} = await useApiPrivate().get(`/api/auth/usuarios`);

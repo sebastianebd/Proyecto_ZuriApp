@@ -5,6 +5,7 @@ const Option = require ('../models/OpcionesComboBox')
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const cron = require('node-cron');
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -79,18 +80,42 @@ async function registerReemplazo(req, res){
   }
 }
 
-//FUNCION PARA MOSTRAR REEMPLAZOS
-async function mostrarReemplazos(req, res){
-
+// FUNCION PARA MOSTRAR REEMPLAZOS CON FILTROS
+async function mostrarReemplazos(req, res) {
   try {
-    const datos = await Reemplazo.find();
+    const datos = await Reemplazo.find({ eliminado: false, activo: true });
     res.json(datos);
   } catch (error) {
-    console.log(error)
-    return res.status(500).json({mensaje: error})
-    
+    console.log(error);
+    return res.status(500).json({ mensaje: error });
   }
 }
+
+// FUNCION PARA MOSTRAR HISTORIAL
+async function mostrarHistorial(req, res) {
+  try {
+    const datos = await Reemplazo.find({ eliminado: false, activo: false });
+    res.json(datos);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ mensaje: error });
+  }
+}
+
+//TAREA PARA EJECUCION DIARIA, ACTUALIZACION DE LOS DOCUMENTOS CUANDO FECHA ACTUAL > FECHA TERMINO 00:01
+cron.schedule('1 0 * * *', async () => {
+  try {
+    const fechaActual = new Date();
+    await Reemplazo.updateMany(
+      { fecha_termino: { $lt: fechaActual }, activo: true },
+      { $set: { activo: false } }
+    );
+    console.log('Tarea programada ejecutada con éxito');
+  } catch (error) {
+    console.error('Error al ejecutar la tarea programada:', error);
+    // Manejo de errores
+  }
+});
 
 //FUNCION PARA MOSTRAR USUARIOS "TENS"
 async function mostrarUsuarios(req, res){
@@ -108,12 +133,17 @@ async function eliminarReemplazo(req, res) {
   const reemplazoId = req.params.id; // Obtener el ID del parámetro de la URL
 
   try {
-    const reemplazoEliminado = await Reemplazo.findByIdAndDelete(reemplazoId);
+    const reemplazo = await Reemplazo.findByIdAndUpdate(
+      reemplazoId,
+      { eliminado: true , activo: false },
+      { new: true }
+    );
 
-    if (!reemplazoEliminado) {
+    if (!reemplazo) {
       return res.status(404).json({ mensaje: 'Reemplazo no encontrado' });
     }
-    const datos = await Reemplazo.find();
+
+    const datos = await Reemplazo.find({ eliminado: { $ne: true } }); // Obtener solo los documentos no eliminados
     res.json(datos);
 
   } catch (error) {
@@ -269,5 +299,5 @@ async function user(req, res){
 }
 
 module.exports = {register, registerReemplazo, login, logout, refresh, user, mostrarReemplazos, eliminarReemplazo, actualizarReemplazo,
-  mostrarServicios, mostrarTipoTurnos, mostrarUsuarios}
+  mostrarServicios, mostrarTipoTurnos, mostrarUsuarios, mostrarHistorial}
 

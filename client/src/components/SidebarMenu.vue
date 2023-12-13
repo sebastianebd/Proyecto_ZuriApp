@@ -16,7 +16,10 @@
 				<span class="material-icons">edit_document</span>
 				<span class="text">Reemplazos</span>
 			</router-link>
-
+			<router-link :to="{ name: 'ver_historial' }" class="button" >
+				<span class="material-icons">manage_search</span>
+				<span class="text">Historial</span>
+			</router-link>
 		</div>
 
 		<h3>Usuarios</h3>
@@ -39,15 +42,6 @@
 			</router-link>
 		</div>
 
-		<h3>Historial</h3>
-		<div class="menu">
-			<router-link to="/ver_historial" class="button">
-				<span class="material-icons">view_list</span>
-				<span class="text">Ver Historial</span>
-			</router-link>
-		</div>
-
-		<div class="flex"></div>
 		
 	</aside>
 </template>

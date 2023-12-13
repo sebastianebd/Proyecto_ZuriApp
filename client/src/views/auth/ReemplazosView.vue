@@ -5,7 +5,7 @@
       </router-link>
       <div class="card mt-2">
         <div class="card-body">
-          <h5 class="card-title m-b-0">Reemplazos</h5>
+          <h5 class="card-title m-b-0">Reemplazos Activos</h5>
         </div>
         <div class="table-responsive" >
           <table class="table table-bordered table-sm">

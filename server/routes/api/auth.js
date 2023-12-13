@@ -20,6 +20,8 @@ router.get('/reemplazos', authControllers.mostrarReemplazos)
 
 router.get('/usuarios', authControllers.mostrarUsuarios)
 
+router.get('/historial', authControllers.mostrarHistorial)
+
 router.get('/servicios', authControllers.mostrarServicios)
 
 router.get('/tipoTurnos', authControllers.mostrarTipoTurnos)

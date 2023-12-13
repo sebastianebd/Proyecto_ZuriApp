@@ -61,7 +61,14 @@ const ReemplazoSchema = Schema(
       required: true,
       uppercase: true
     },
-
+    eliminado: {
+      type: Boolean,
+      default: false
+    },
+    activo: {
+      type: Boolean,
+      default: true
+    },
     refresh_token: String
   },
   {
