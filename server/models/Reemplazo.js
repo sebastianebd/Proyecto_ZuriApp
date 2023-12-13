@@ -3,6 +3,10 @@ const Schema = mongoose.Schema
 
 const ReemplazoSchema = Schema(
   {
+    id_saliente:{
+      type: String,
+      required: true
+    },
     rut_saliente:{
       type: String,
       required: true,
@@ -20,6 +24,12 @@ const ReemplazoSchema = Schema(
       required: true,
       uppercase: true
     },
+
+    id_entrante:{
+      type: String,
+      required: true
+    },
+
     rut_entrante:{
       type: String,
       required: true,

@@ -178,11 +178,14 @@ const usuariosFiltrados = computed(() => {
   }
 });
 
+
     const registroReemplazo = reactive<RegisterDataReemplazo>({
+      id_saliente: "",
       rut_saliente: "",
       nombre_saliente: "",
       apellido_saliente: "",
   
+      id_entrante: "",
       rut_entrante: "",
       nombre_entrante: "",
       apellido_entrante: "",
@@ -246,9 +249,11 @@ const cerrarTablaModal = () => {
 
 const seleccionarUsuarioPaso1 = (usuario: User) => {
   
+  registroReemplazo.id_saliente = usuario._id;
   registroReemplazo.rut_saliente = usuario.rut;
   registroReemplazo.nombre_saliente = usuario.nombre;
   registroReemplazo.apellido_saliente = usuario.apellido;
+  
 
   if(registroReemplazo.rut_saliente === registroReemplazo.rut_entrante){
     alert("No puedes seleccionar el mismo usuario");
@@ -262,9 +267,11 @@ const seleccionarUsuarioPaso1 = (usuario: User) => {
 
 const seleccionarUsuarioPaso2 = (usuario: User) => {
   
+  registroReemplazo.id_entrante = usuario._id;
   registroReemplazo.rut_entrante = usuario.rut;
   registroReemplazo.nombre_entrante = usuario.nombre;
   registroReemplazo.apellido_entrante = usuario.apellido;
+  
 
   if(registroReemplazo.rut_entrante === registroReemplazo.rut_saliente){
     alert("No puedes seleccionar el mismo usuario");

@@ -63,13 +63,13 @@ async function register(req, res){
 }
 
 
-//FUNCION PARA REGISTRO DE TURNOS
+//FUNCION PARA REGISTRO DE REEMPLAZOS Y TURNOS
 async function registerReemplazo(req, res){
-  const {rut_saliente, nombre_saliente, apellido_saliente, rut_entrante, nombre_entrante, apellido_entrante,
+  const {id_saliente, rut_saliente, nombre_saliente, apellido_saliente, id_entrante, rut_entrante, nombre_entrante, apellido_entrante,
         tipo_turno, fecha_inicio, fecha_termino, servicio} = req.body
 
   try {
-    await Reemplazo.create({rut_saliente, nombre_saliente, apellido_saliente, rut_entrante, nombre_entrante, apellido_entrante,
+    await Reemplazo.create({id_saliente, rut_saliente, nombre_saliente, apellido_saliente, id_entrante ,rut_entrante, nombre_entrante, apellido_entrante,
       tipo_turno, fecha_inicio, fecha_termino, servicio})
 
     return res.sendStatus(201)
@@ -154,7 +154,7 @@ async function eliminarReemplazo(req, res) {
 
 //FUNCION PARA ACTUALIZAR REEMPLAZO
 async function actualizarReemplazo(req, res) {
-  const reemplazoId = req.params.id; // Obtener el ID del parámetro de la URL
+  const reemplazoId = req.params.id;
   const {rut_saliente, nombre_saliente, apellido_saliente, rut_entrante, nombre_entrante, apellido_entrante,
     tipo_turno, fecha_inicio, fecha_termino, servicio} = req.body
 
@@ -174,6 +174,7 @@ async function actualizarReemplazo(req, res) {
   }
 }
 
+//FUNCION PARA MOSTRAR SERVICIOS EN COMBOBOX
 async function mostrarServicios(req, res) {
   try {
     const servicios = await Option.findOne({ nombre: "SERVICIOS" }, 'opciones');
@@ -187,6 +188,7 @@ async function mostrarServicios(req, res) {
   }
 }
 
+//FUNCION PARA MOSTRAR TIPO DE TURNOS EN COMBOBOX
 async function mostrarTipoTurnos(req, res) {
     try {
       const tipoTurno = await Option.findOne({ nombre: "TIPO_TURNO" }, 'opciones');

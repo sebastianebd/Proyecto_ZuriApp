@@ -59,54 +59,75 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-6">
-            <!-- Columna izquierda con 5 campos -->
-            <div class="mb-3">
-              <label for="rutSaliente" class="form-label form-label-sm">Rut Saliente</label>
-              <input type="text" id="rutSaliente" v-model="registroActual.rut_saliente" class="form-control form-control-sm">
-            </div>
-            <div class="mb-3">
+            <!-- Grupo 1: Rut Saliente, Nombre Saliente, Apellido Saliente -->
+            <div class="border p-2 mb-2">
+              <div class="d-flex align-items-center mb-3">
+                <label for="rutSaliente" class="form-label form-label-sm flex-grow-1">Rut Saliente</label>
+                <button @click.prevent="mostrarTablaModal" class="btn btn-warning btn-sm ms-2 custom-small-button">
+                  <i class="material-icons">search</i>
+                </button>
+              </div>
+              <div class="mb-3">
+                <input type="text" id="rutSaliente" v-model="registroActual.rut_saliente" class="form-control form-control-sm" disabled>
+              </div>
+              <div class="mb-3">
                 <label for="nombreSaliente" class="form-label form-label-sm">Nombre Saliente</label>
-                <input type="text" id="nombreSaliente" v-model="registroActual.nombre_saliente" class="form-control form-control-sm">
+                <input type="text" id="nombreSaliente" v-model="registroActual.nombre_saliente" class="form-control form-control-sm" disabled>
               </div>
               <div class="mb-3">
-                <label for="nombreSaliente" class="form-label form-label-sm">Apellido Saliente</label>
-                <input type="text" v-model="registroActual.apellido_saliente" class="form-control form-control-sm">
+                <label for="apellidoSaliente" class="form-label form-label-sm">Apellido Saliente</label>
+                <input type="text" id="apellidoSaliente" v-model="registroActual.apellido_saliente" class="form-control form-control-sm" disabled>
               </div>
-              <div class="mb-3">
-                <label for="nombreSaliente" class="form-label form-label-sm">Rut Entrate</label>
-                <input type="text" v-model="registroActual.rut_entrante" class="form-control form-control-sm">
-              </div>
-              <div class="mb-3">
-                <label for="nombreSaliente" class="form-label form-label-sm">Nombre Entrante</label>
-                <input type="text" v-model="registroActual.nombre_entrante" class="form-control form-control-sm">
-              </div>
-              <div class="mb-3">
-                <label for="nombreSaliente" class="form-label form-label-sm">Apellido Entrante</label>
-                <input type="text" v-model="registroActual.apellido_entrante" class="form-control form-control-sm">
-              </div>
+            </div>
           </div>
           <div class="col-md-6">
-            <!-- Columna derecha con 5 campos -->
+            <!-- Grupo 2: Rut Entrante, Nombre Entrante, Apellido Entrante -->
+           <div class="border p-2 mb-2">
+              <div class="d-flex align-items-center mb-3">
+                <label for="rutSaliente" class="form-label form-label-sm flex-grow-1">Rut Entrante</label>
+                <button @click.prevent="mostrarTablaModal" class="btn btn-warning btn-sm ms-2 custom-small-button">
+                  <i class="material-icons">search</i>
+                </button>
+              </div>
+              <div class="mb-3">
+                <input type="text" id="rutSaliente" v-model="registroActual.rut_entrante" class="form-control form-control-sm" disabled>
+              </div>
             <div class="mb-3">
-              <label for="tipoTurno" class="form-label form-label-sm">Tipo Turno</label>
-              <select v-model="registroActual.tipo_turno" class="form-control form-control-sm">
-                <option v-for="turno in listaDeTurnos" :key="turno" :value="turno">{{ turno }}</option>
-              </select>
+                <label for="nombreEntrante" class="form-label form-label-sm">Nombre Entrante</label>
+                <input type="text" id="nombreEntrante" v-model="registroActual.nombre_entrante" class="form-control form-control-sm" disabled>
+              </div>
+              <div class="mb-3">
+                <label for="apellidoEntrante" class="form-label form-label-sm">Apellido Entrante</label>
+                <input type="text" id="apellidoEntrante" v-model="registroActual.apellido_entrante" class="form-control form-control-sm" disabled>
+              </div>
             </div>
-            <div class="mb-3">
-                <label for="nombreSaliente" class="form-label form-label-sm">Fecha Inicio</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <!-- Grupo 3:-->
+            <div class="border p-2 mb-2">
+              <div class="mb-2">
+                <label for="tipoTurno" class="form-label form-label-sm">Tipo Turno</label>
+                <select v-model="registroActual.tipo_turno" class="form-control form-control-sm">
+                  <option v-for="turno in listaDeTurnos" :key="turno" :value="turno">{{ turno }}</option>
+                </select>
+              </div>
+              <div class="mb-2">
+                <label for="fechaInicio" class="form-label form-label-sm">Fecha Inicio</label>
                 <input type="date" v-model="registroActual.fecha_inicio" class="form-control form-control-sm">
               </div>
-              <div class="mb-3">
-                <label for="nombreSaliente" class="form-label form-label-sm">Fecha Termino</label>
+              <div class="mb-2">
+                <label for="fechaTermino" class="form-label form-label-sm">Fecha Termino</label>
                 <input type="date" v-model="registroActual.fecha_termino" class="form-control form-control-sm">
               </div>
-              <div class="mb-3">
-                <label for="nombreSaliente" class="form-label form-label-sm">Servicio</label>
+              <div class="mb-2">
+                <label for="servicio" class="form-label form-label-sm">Servicio</label>
                 <select v-model="registroActual.servicio" class="form-control form-control-sm">
                   <option v-for="servicio in listaDeServicios" :key="servicio" :value="servicio">{{ servicio }}</option>
                 </select>
               </div>
+            </div>
           </div>
         </div>
       </div>
@@ -185,6 +206,16 @@ const guardarCambios = async () => {
 .modal.show {
   display: block;
 }
+
+.custom-small-button {
+  padding: 0.0rem 0.0rem; /* Ajusta el padding para hacer el botón más pequeño */
+  font-size: 0.0rem; /* Reduce el tamaño de la fuente */
+}
+
+.modal-header {
+    margin-bottom: 0; /* Elimina el margen inferior del título */
+    padding-bottom: 0; /* Elimina el relleno inferior del título si lo hubiera */
+  }
 </style>
 
 

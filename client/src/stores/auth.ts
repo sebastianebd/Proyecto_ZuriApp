@@ -2,7 +2,7 @@ import {defineStore} from "pinia"
 import {useApi, useApiPrivate} from "../composables/useApi"
 
 export interface User{
-  id: number,
+  _id: string,
   rut: string,
   nombre: string,
   apellido: string,
@@ -27,9 +27,11 @@ export interface LoginData {
 }
 
 export interface RegisterDataReemplazo {
+  id_saliente: string,
   rut_saliente: string,
   nombre_saliente: string,
   apellido_saliente: string,
+  id_entrante: string,
   rut_entrante: string,
   nombre_entrante: string,
   apellido_entrante: string,
