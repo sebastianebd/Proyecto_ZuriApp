@@ -15,7 +15,7 @@
             </div>
 
 
-            <div class="col-md-2 ms-4">
+            <div class="col-md-3 ms-4">
                 <label for="filtroCargo" class="form-label form-label">Filtro por Cargo</label>
                 <select v-model="registroSeleccionado.tipo_cargo" class="form-select" @change="filtroCargo">
                   <option value="" disabled selected>Selecciona una opción</option>
@@ -43,7 +43,8 @@
         <th scope="col" class="small">Ciudad</th>   
         <th scope="col" class="small">Teléfono</th>
         <th scope="col" class="small">Email</th>
-        <th scope="col" class="small">Habilitado</th>
+        <th scope="col" class="small" v-if="registroSeleccionado.tipo_cargo !== 'RECURSOS HUMANOS' && registroSeleccionado.tipo_cargo !== 'TENS'">Servicio</th>
+        <th scope="col" class="small" v-if="registroSeleccionado.tipo_cargo !== 'RECURSOS HUMANOS' && registroSeleccionado.tipo_cargo !== 'JEFA SERVICIO'">Habilitado</th>
         <th scope="col" class="small">Cargo</th>
       </tr>
     </thead>
@@ -57,7 +58,8 @@
         <td class="small">{{ usuario.ciudad }}</td>
         <td class="small">{{ usuario.telefono }}</td>
         <td class="small">{{ usuario.email }}</td>
-        <td class="small">{{ usuario.habilitado }}</td>
+        <td class="small" v-if="registroSeleccionado.tipo_cargo !== 'RECURSOS HUMANOS' && registroSeleccionado.tipo_cargo !== 'TENS'">{{ usuario.servicio }}</td>
+        <td class="small" v-if="registroSeleccionado.tipo_cargo !== 'RECURSOS HUMANOS' && registroSeleccionado.tipo_cargo !== 'JEFA SERVICIO'">{{ usuario.habilitado }}</td>
         <td class="small">{{ usuario.tipo_cargo }}</td>
         <td>
                   <button @click="eliminar(index)" class="btn btn-danger btn-sm">Eliminar</button>

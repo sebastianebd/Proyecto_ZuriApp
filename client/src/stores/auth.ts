@@ -51,9 +51,9 @@ export interface RegisterData {
   telefono: number,
   email: string,
   ciudad:string,
-  habilitado:string,
   tipo_cargo:string
-
+  habilitado?: string; 
+  servicio?: string; 
 }
 
 

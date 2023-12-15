@@ -65,7 +65,15 @@
                   <option v-for="habilitado in listaHabilitado" :key="habilitado" :value="habilitado" >{{ habilitado }}</option>
                 </select>
               </div>
- 
+
+              <div v-if="showServicio" class="mb-3 col-6">
+                <label for="servicio" class="form-label">Servicio</label>
+                <select v-model="registerData.servicio" class="form-select form-control-sm" >
+                  <option value="" disabled selected>Selecciona una opción</option>
+                  <option v-for="servicio in listaServicio" :key="servicio" :value="servicio" >{{ servicio }}</option>
+                </select>
+              </div>
+
 
         <div class="col-12 d-flex justify-content-center mt-3">
           <button type="submit" class="btn btn-success me-3">Guardar</button>
@@ -88,8 +96,10 @@ import { useRouter } from 'vue-router';
 const authStore = useAuthStore()
 const router = useRouter()
 const showHabilitado = ref<boolean>(false)
+const showServicio = ref<boolean>(false)
 const listaTipoCargo = ref<string[]>([]);
 const listaHabilitado = ref<string[]>([]);
+const listaServicio = ref<string[]>([]);
 
 const registerData = reactive<RegisterData>({
   rut: "",
@@ -100,7 +110,6 @@ const registerData = reactive<RegisterData>({
   telefono: 0,
   email: "",
   ciudad: "",
-  habilitado:"",
   tipo_cargo: ""
 })
 
@@ -111,7 +120,7 @@ onMounted(async () => {
 
   listaTipoCargo.value = opciones.tipoCargo
   listaHabilitado.value = opciones.habilitado
-
+  listaServicio.value = opciones.servicios
 });
 
 async function submit(){
@@ -127,7 +136,10 @@ async function submit(){
 function checkCargo() {
   if (registerData.tipo_cargo === 'TENS') {
     showHabilitado.value = true;
-  } else {
+  } else if(registerData.tipo_cargo === 'JEFA SERVICIO'){
+    showServicio.value = true;
+  }
+  else {
     showHabilitado.value = false;
     registerData.habilitado = '';
   }

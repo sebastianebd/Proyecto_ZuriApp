@@ -57,12 +57,6 @@ const UserSchema = Schema(
       uppercase: true,
     },
 
-    habilitado: {
-      type: String,
-      required: true,
-      uppercase: true,
-    },
-
     tipo_cargo: {
       type: String,
       required: true,
@@ -78,8 +72,26 @@ const UserSchema = Schema(
       type: String,
       required: true,
     },
+
+    servicio: {
+      type: String,
+      required: function() {
+        return this.tipo_cargo === 'JEFA SERVICIO';
+      },
+    },
+
+    habilitado: {
+      type: String,
+      required: function() {
+        return this.tipo_cargo === 'TENS';
+      },
+
     refresh_token: String
-  },
+    
+  }
+},
+
+
   {
     virtuals:{
       full_name: {

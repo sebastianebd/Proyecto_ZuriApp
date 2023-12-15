@@ -15,50 +15,77 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-//FUNCION PARA REGISTRO DE USUARIOS
-async function register(req, res){
-  const {rut, nombre, apellido, fecha_nac, direccion, telefono, email, ciudad, habilitado, tipo_cargo} = req.body
+// FUNCION PARA REGISTRO DE USUARIOS
+async function register(req, res) {
+  const {
+    rut,
+    nombre,
+    apellido,
+    fecha_nac,
+    direccion,
+    telefono,
+    email,
+    ciudad,
+    tipo_cargo,
+  } = req.body;
 
   try {
     const [rutExists, telefonoExist, emailExist] = await Promise.all([
       User.exists({ rut }).exec(),
       User.exists({ telefono }).exec(),
-      User.exists({ email }).exec()
+      User.exists({ email }).exec(),
     ]);
-  
+
     if (rutExists || telefonoExist || emailExist) {
       return res.sendStatus(409);
     }
   } catch (error) {
     return res.status(500).send("Error en el servidor");
   }
-
+  const generarPassword = crypto.randomBytes(3).toString("hex");
+  const hashedPassword = await bcrypt.hash(generarPassword, 10);
   try {
-    const generarPassword = crypto.randomBytes(3).toString('hex');
-    hashedPassword = await bcrypt.hash(generarPassword, 10)
-    console.log(generarPassword);
-    await User.create({rut, nombre, apellido, fecha_nac, direccion, telefono, email, ciudad, habilitado, tipo_cargo ,password: hashedPassword})
-
-    const mailOptions = {
-      from: 'zuri.app01@gmail.com',
-      to: email, // Usar el correo del usuario
-      subject: 'Contraseña generada automáticamente',
-      text: `¡Hola ${nombre}! Tu contraseña generada automáticamente es: ${generarPassword}. Recuerda cambiarla después de iniciar sesión.`
+    let NuevoUsuario = {
+      rut,
+      nombre,
+      apellido,
+      fecha_nac,
+      direccion,
+      telefono,
+      email,
+      ciudad,
+      tipo_cargo,
+      password: hashedPassword,
     };
 
-    transporter.sendMail(mailOptions, function(error, info){
+    if (tipo_cargo === 'TENS') {
+      NuevoUsuario.habilitado = req.body.habilitado; 
+    } else if (tipo_cargo === 'JEFA SERVICIO') {
+      NuevoUsuario.servicio = req.body.servicio; 
+    }
+
+    NuevoUsuario.password = hashedPassword;
+    await User.create(NuevoUsuario);
+
+    const mailOptions = {
+      from: "zuri.app01@gmail.com",
+      to: email,
+      subject: "Contraseña generada automáticamente",
+      text: `¡Hola ${nombre}! Tu contraseña generada automáticamente es: ${generarPassword}. Recuerda cambiarla después de iniciar sesión.`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {
-        console.log('Correo enviado: ' + info.response);
+        console.log("Correo enviado: " + info.response);
       }
     });
 
-    return res.sendStatus(201)
+    return res.sendStatus(201);
   } catch (error) {
-    console.log(error)
-    return res.status(400).json({mensaje: "No se pudo registrar"})
-    
+    console.log(error);
+    return res.status(400).json({ mensaje: "No se pudo registrar" });
   }
 }
 
