@@ -128,6 +128,17 @@ async function mostrarUsuarios(req, res){
   }
 }
 
+//FUNCION PARA MOSTRAR TODOS LOS USUARIOS
+async function mostrarTodos(req, res){
+  try {
+    const usuarios = await User.find({eliminado:false});
+    res.json(usuarios);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ mensaje: error });
+  }
+}
+
 //FUNCION PARA ELIMINAR REEMPLAZO
 async function eliminarReemplazo(req, res) {
   const reemplazoId = req.params.id; // Obtener el ID del parámetro de la URL
@@ -144,6 +155,30 @@ async function eliminarReemplazo(req, res) {
     }
 
     const datos = await Reemplazo.find({ eliminado: { $ne: true } }); // Obtener solo los documentos no eliminados
+    res.json(datos);
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ mensaje: error });
+  }
+}
+
+//FUNCION PARA ELIMINAR UN USUARIO
+async function eliminarUsuario(req, res) {
+  const usuarioId = req.params.id; // Obtener el ID del parámetro de la URL
+
+  try {
+    const usuario = await User.findByIdAndUpdate(
+      usuarioId,
+      { eliminado: true },
+      { new: true }
+    );
+
+    if (!usuario) {
+      return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    }
+
+    const datos = await User.find({ eliminado: { $ne: true } });
     res.json(datos);
 
   } catch (error) {
@@ -174,6 +209,27 @@ async function actualizarReemplazo(req, res) {
   }
 }
 
+async function actualizarUsuario(req, res) {
+  const usuarioId = req.params.id;
+  const {rut, nombre, apellido, fecha_nac, direccion, telefono,
+    email, ciudad, habilitado, tipo_cargo} = req.body
+
+  try {
+    const usuarioActualizado = await User.findByIdAndUpdate(usuarioId,{rut, nombre, apellido, fecha_nac, direccion, telefono,
+      email, ciudad, habilitado, tipo_cargo},{new:true});
+
+    if (!usuarioActualizado) {
+      return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    }
+    const datos = await User.find({eliminado:false});
+    res.json(datos);
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ mensaje: error });
+  }
+}
+
 //FUNCION PARA MOSTRAR SERVICIOS EN COMBOBOX
 async function mostrarServicios(req, res) {
   try {
@@ -196,6 +252,34 @@ async function mostrarTipoTurnos(req, res) {
         return res.status(404).json({ mensaje: 'No se encontraron servicios' });
       }
       res.json(tipoTurno.opciones);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ mensaje: 'Error al obtener servicios' });
+    }
+  }
+
+  //FUNCION PARA MOSTRAR TIPO DE CARGOS EN COMBOBOX
+async function mostrarTipoCargo(req, res) {
+  try {
+    const tipoCargo = await Option.findOne({ nombre: "TIPO_CARGO" }, 'opciones');
+    if (!tipoCargo) {
+      return res.status(404).json({ mensaje: 'No se encontraron cargos' });
+    }
+    res.json(tipoCargo.opciones);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ mensaje: 'Error al obtener cargos' });
+  }
+}
+
+  //FUNCION PARA MOSTRAR HABILITADO EN COMBOBOX
+  async function mostrarHabilitado(req, res) {
+    try {
+      const habilitado = await Option.findOne({ nombre: "HABILITADO" }, 'opciones');
+      if (!habilitado) {
+        return res.status(404).json({ mensaje: 'No se encontraron servicios' });
+      }
+      res.json(habilitado.opciones);
     } catch (error) {
       console.error(error);
       return res.status(500).json({ mensaje: 'Error al obtener servicios' });
@@ -301,5 +385,6 @@ async function user(req, res){
 }
 
 module.exports = {register, registerReemplazo, login, logout, refresh, user, mostrarReemplazos, eliminarReemplazo, actualizarReemplazo,
-  mostrarServicios, mostrarTipoTurnos, mostrarUsuarios, mostrarHistorial}
+  mostrarServicios, mostrarTipoTurnos, mostrarUsuarios, mostrarHistorial, eliminarUsuario, mostrarTodos, actualizarUsuario, mostrarTipoCargo,
+  mostrarHabilitado}
 

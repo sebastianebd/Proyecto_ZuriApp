@@ -1,7 +1,7 @@
 <template>
 
     <main>
-        ELIMINAR USUARIO
+        CALENDARIO
     </main>
 
 </template>

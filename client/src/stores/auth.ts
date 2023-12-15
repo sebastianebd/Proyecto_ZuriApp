@@ -122,9 +122,27 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    async actualizarUsuario(usuarioId: string, payload: RegisterData){
+      try {
+        const {data} = await useApi().put(`/api/auth/actualizarUsuario/${usuarioId}`, payload);
+        return data
+      } catch (error: Error | any) {
+        throw error.message
+      }
+    },
+
     async eliminarReemplazo(id: string) {
       try {
         const { data } = await useApiPrivate().delete(`/api/auth/eliminarReemplazo/${id}`);
+        return data;
+      } catch (error: Error | any) {
+        throw error.message;
+      }
+    },
+
+    async eliminarUsuario(id: string) {
+      try {
+        const { data } = await useApiPrivate().delete(`/api/auth/eliminarUsuario/${id}`);
         return data;
       } catch (error: Error | any) {
         throw error.message;
@@ -168,14 +186,27 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    async mostrarTodos(){
+      try {
+        const {data} = await useApiPrivate().get(`/api/auth/mostrarTodos`);
+        return data
+      } catch (error: Error | any) {
+        throw error.message
+      }
+    },
+
     async mostrarOpciones() {
       try {
           const servicios = await useApiPrivate().get(`/api/auth/servicios`);
           const tiposTurno = await useApiPrivate().get(`/api/auth/tipoTurnos`);
+          const tipoCargo = await useApiPrivate().get(`/api/auth/tipoCargo`);
+          const habilitado = await useApiPrivate().get(`/api/auth/habilitado`);
     
           return {
               servicios: servicios.data,
-              tiposTurno: tiposTurno.data
+              tiposTurno: tiposTurno.data,
+              tipoCargo: tipoCargo.data,
+              habilitado: habilitado.data
           };
       } catch (error: Error | any) {
           throw error.message;

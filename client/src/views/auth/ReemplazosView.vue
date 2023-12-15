@@ -47,6 +47,8 @@
         </div>       
       </div>
 
+
+      <!--MODAL PARA MODIFICAR REGISTRO-->
       <div class="modal" :class="{ 'show': modalVisible }" id="modificarModal" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
@@ -58,12 +60,13 @@
       </div>
       <div class="modal-body">
         <div class="row">
+          
+          <!-- Grupo 1: Rut Saliente, Nombre Saliente, Apellido Saliente -->
           <div class="col-md-6">
-            <!-- Grupo 1: Rut Saliente, Nombre Saliente, Apellido Saliente -->
             <div class="border p-2 mb-2">
               <div class="d-flex align-items-center mb-3">
                 <label for="rutSaliente" class="form-label form-label-sm flex-grow-1">Rut Saliente</label>
-                <button @click.prevent="mostrarTablaModal" class="btn btn-warning btn-sm ms-2 custom-small-button">
+                <button @click.prevent="seleccionarGrupo(1)" class="btn btn-warning btn-sm ms-2 custom-small-button">
                   <i class="material-icons">search</i>
                 </button>
               </div>
@@ -80,12 +83,15 @@
               </div>
             </div>
           </div>
+
+          <!-- Grupo 2: Rut Entrante, Nombre Entrante, Apellido Entrante -->
+    
+          
           <div class="col-md-6">
-            <!-- Grupo 2: Rut Entrante, Nombre Entrante, Apellido Entrante -->
-           <div class="border p-2 mb-2">
+            <div class="border p-2 mb-2">
               <div class="d-flex align-items-center mb-3">
                 <label for="rutSaliente" class="form-label form-label-sm flex-grow-1">Rut Entrante</label>
-                <button @click.prevent="mostrarTablaModal" class="btn btn-warning btn-sm ms-2 custom-small-button">
+                <button @click.prevent="seleccionarGrupo(2)" class="btn btn-warning btn-sm ms-2 custom-small-button">
                   <i class="material-icons">search</i>
                 </button>
               </div>
@@ -103,9 +109,10 @@
             </div>
           </div>
         </div>
+      
+        <!-- Grupo 3:-->
         <div class="row">
           <div class="col-md-12">
-            <!-- Grupo 3:-->
             <div class="border p-2 mb-2">
               <div class="mb-2">
                 <label for="tipoTurno" class="form-label form-label-sm">Tipo Turno</label>
@@ -131,9 +138,63 @@
           </div>
         </div>
       </div>
+      <div class="d-flex justify-content-center mb-3">
+        <div class>
+          <button type="button" class="btn btn-secondary me-3" @click="cerrarModal">Cancelar</button>
+        </div>
+        <div>
+          <button type="button" class="btn btn-primary" @click="guardarCambios">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--MODAL BUSCAR USUARIO-->
+<div class="modal" :class="{ 'show': tablaModalVisible }" id="tablaModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Seleccione Usuario</h5>
+        <button type="button" class="close" @click="cerrarTablaModal" aria-label="Close">
+          <span aria-hidden="true" class="h1">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <input type="text" v-model="filtroRut" placeholder="Buscar por RUT">
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-sm">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col" class="small">Rut</th>
+                <th scope="col" class="small">Nombre </th>
+                <th scope="col" class="small">Apellido</th>
+                <th scope="col" class="small">Direccion</th>
+                <th scope="col" class="small">Telefono</th>
+                <th scope="col" class="small">Email</th>
+                <th scope="col" class="small">Ciudad</th>
+                <th scope="col" class="small">Habilitado</th>
+            </tr>
+            </thead>
+            <tbody class="customtable">
+              <tr v-for="(usuario, index) in usuariosFiltrados" :key="index" @click="seleccionarUsuario(usuario)">
+                <td class="small">{{ usuario.rut }}</td>
+                <td class="small">{{ usuario.nombre }}</td>
+                <td class="small">{{ usuario.apellido }}</td>
+                <td class="small">{{ usuario.direccion }}</td>
+                <td class="small">{{ usuario.telefono }}</td>
+                <td class="small">{{ usuario.email }}</td>
+                <td class="small">{{ usuario.ciudad }}</td>
+                <td class="small">{{ usuario.habilitado }}</td>
+              </tr>
+            </tbody>           
+          </table>
+        </div>
+      </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" @click="cerrarModal">Cancelar</button>
-        <button type="button" class="btn btn-primary" @click="guardarCambios">Guardar</button>
+        <button type="button" class="btn btn-secondary" @click="cerrarTablaModal">Cerrar</button>
       </div>
     </div>
   </div>
@@ -142,20 +203,32 @@
   </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '../../stores/auth';
-import { onMounted, ref } from 'vue';
+import { useAuthStore, type User } from '../../stores/auth';
+import { onMounted, ref, computed } from 'vue';
 
 const authStore = useAuthStore();
 const user = ref<any[]>([]); 
 const listaDeTurnos = ref<string[]>([]);
 const listaDeServicios = ref<string[]>([]);
+const filtroRut = ref("");
+const usuarios = ref<any[]>([]); 
+const grupo = ref<number>(1); 
 
 onMounted(async () => {
   const opciones = await authStore.mostrarOpciones();
     user.value = await authStore.mostrarReemplazos();
+    usuarios.value = await authStore.mostrarUsuarios();
 
     listaDeTurnos.value = opciones.tiposTurno
     listaDeServicios.value = opciones.servicios
+});
+
+const usuariosFiltrados = computed(() => {
+  if (filtroRut.value !== "") {
+    return usuarios.value.filter(usuario => usuario.rut.startsWith(filtroRut.value));
+  } else {
+    return usuarios.value;
+  }
 });
 
 const eliminar = async (index: number) => {
@@ -189,6 +262,52 @@ const guardarCambios = async () => {
   cerrarModal();
   user.value = await authStore.mostrarReemplazos();
 };
+
+const tablaModalVisible = ref(false);
+
+const mostrarTablaModal = () => {
+  tablaModalVisible.value = true;
+};
+
+const cerrarTablaModal = () => {
+  tablaModalVisible.value = false;
+};
+
+const seleccionarUsuario = (usuario: User) => {
+  if (grupo.value === 1) {
+    seleccionarGrupo1(usuario);
+  } else if (grupo.value === 2) {
+    seleccionarGrupo2(usuario);
+  }
+};
+
+const seleccionarGrupo1 = (usuario: User) => {
+  
+    registroActual.value.id_saliente = usuario._id;
+    registroActual.value.rut_saliente = usuario.rut;
+    registroActual.value.nombre_saliente = usuario.nombre;
+    registroActual.value.apellido_saliente = usuario.apellido;
+
+    cerrarTablaModal();
+
+    
+};
+
+const seleccionarGrupo2 = (usuario: User) => {
+
+    registroActual.value.id_entrante = usuario._id;
+    registroActual.value.rut_entrante = usuario.rut;
+    registroActual.value.nombre_entrante = usuario.nombre;
+    registroActual.value.apellido_entrante = usuario.apellido;
+    cerrarTablaModal();
+
+};
+
+const seleccionarGrupo = (numeroGrupo: number) => {
+  grupo.value = numeroGrupo;
+  mostrarTablaModal();
+};
+
 </script>
 
 <style>
@@ -208,13 +327,13 @@ const guardarCambios = async () => {
 }
 
 .custom-small-button {
-  padding: 0.0rem 0.0rem; /* Ajusta el padding para hacer el botón más pequeño */
-  font-size: 0.0rem; /* Reduce el tamaño de la fuente */
+  padding: 0.0rem 0.0rem;
+  font-size: 0.0rem; 
 }
 
 .modal-header {
-    margin-bottom: 0; /* Elimina el margen inferior del título */
-    padding-bottom: 0; /* Elimina el relleno inferior del título si lo hubiera */
+    margin-bottom: 0; 
+    padding-bottom: 0;
   }
 </style>
 

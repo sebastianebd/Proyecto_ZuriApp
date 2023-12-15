@@ -41,15 +41,9 @@ const router = createRouter({
       meta: {requiresAuth: true}
     },
     {
-      path: '/modificar_usuario',
-      name: 'modificar_usuario',
-      component: () => import('../views/auth/ModificarUsuario.vue'),
-      meta: {requiresAuth: true}
-    },
-    {
-      path: '/eliminar_usuario',
-      name: 'eliminar_usuario',
-      component: () => import('../views/auth/EliminarUsuario.vue'),
+      path: '/calendario',
+      name: 'calendario',
+      component: () => import('../views/auth/CalendarioView.vue'),
       meta: {requiresAuth: true}
     },
     {

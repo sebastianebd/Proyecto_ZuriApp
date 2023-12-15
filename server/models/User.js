@@ -7,27 +7,32 @@ const UserSchema = Schema(
     rut:{
       type: String,
       required: true,
-      unique: true
+      unique: true,
+      uppercase: true,
     },
 
     nombre: {
       type: String,
-      required: true
+      required: true,
+      uppercase: true,
     },
 
     apellido: {
       type: String,
-      required: true
+      required: true,
+      uppercase: true,
     },
 
     fecha_nac: {
-      type: String,
-      required: true
+      type: Date,
+      required: true,
+      uppercase: true,
     },
 
     direccion: {
       type: String,
-      required: true
+      required: true,
+      uppercase: true,
     },
 
     telefono: {
@@ -40,7 +45,7 @@ const UserSchema = Schema(
       required: true,
       uppercase: true,
       trim: true,
-      unique: false, // cambiara  true
+      unique: true,
       validate: [
         (val) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val),
       ]
@@ -48,17 +53,25 @@ const UserSchema = Schema(
 
     ciudad: {
       type: String,
-      required: true
+      required: true,
+      uppercase: true,
     },
 
     habilitado: {
       type: String,
-      required: true
+      required: true,
+      uppercase: true,
     },
 
     tipo_cargo: {
       type: String,
       required: true,
+      uppercase: true
+    },
+
+    eliminado: {
+      type: Boolean,
+      default: false
     },
 
     password: {

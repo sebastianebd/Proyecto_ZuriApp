@@ -24,22 +24,18 @@
 
 		<h3>Usuarios</h3>
 		<div class="menu">
-			<router-link to="crear_usuario" class="button" >
-				<span class="material-icons">person_add</span>
-				<span class="text">Crear Usuario</span>
-			</router-link>
-			<router-link to="/modificar_usuario" class="button">
-				<span class="material-icons">manage_accounts</span>
-				<span class="text">Modificar Usuario</span>
-			</router-link>
-			<router-link to="/eliminar_usuario" class="button">
-				<span class="material-icons">person_off</span>
-				<span class="text">Eliminar Usuario</span>
-			</router-link>
 			<router-link to="/ver_usuarios" class="button">
 				<span class="material-icons">groups</span>
-				<span class="text">Ver Usuarios</span>
+				<span class="text">Usuarios</span>
 			</router-link>
+		</div>
+		<h3>Calendario</h3>
+		<div class="menu">
+			<router-link to="calendario" class="button" >
+				<span class="material-icons">calendar_month</span>
+				<span class="text">Calendario</span>
+			</router-link>
+
 		</div>
 
 		

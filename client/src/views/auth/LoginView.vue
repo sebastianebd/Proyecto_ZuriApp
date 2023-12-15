@@ -5,7 +5,7 @@
     <div class="container">
       <div class="card card-body mt-4">
 
-        <h6 class="card-title">Login</h6>
+        <h6 class="card-title">Inicio de sesion</h6>
         <form @submit.prevent="submit">
           <div class="mb-3">
             <label for="email" class="form-label">Rut</label>
