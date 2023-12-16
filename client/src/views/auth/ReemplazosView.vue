@@ -1,13 +1,54 @@
 <template>
     <main>
-      <router-link :to="{ name: 'crear' }" class="btn btn-primary btn-md mb-3">
+      <div class="row">
+        <div class="col-sm-1 ms-0">
+          <router-link :to="{ name: 'crear' }" class="btn btn-primary btn-sm">
         <span class="text">+ Crear Reemplazo</span>
       </router-link>
+        </div>
+        <div class="col-sm-1 ms-0">
+              <button @click="limpiarFechasYFiltros" class="btn btn-secondary btn-sm">Limpiar Filtros</button>
+            </div>
+      </div>
+      
       <div class="card mt-2">
         <div class="card-body">
           <h5 class="card-title m-b-0">Reemplazos Activos</h5>
         </div>
         <div class="table-responsive" >
+
+          <div class="row">
+          <div class="col-sm-2 ms-2">
+              <label for="filtroCargo" class="form-label col-form-label-sm">Buscar por Rut (saliente):</label>
+              <input type="text" v-model="filtroRutSaliente" placeholder="Ingrese Rut" class="form-control mb-3 form-control-sm">
+            </div>
+          
+            <div class="col-sm-2 ms-0">
+              <label for="filtroCargo" class="form-label col-form-label-sm">Buscar por Rut (entrante):</label>
+              <input type="text" v-model="filtroRutEntrante" placeholder="Ingrese Rut" class="form-control mb-3 form-control-sm">
+            </div>
+
+            <div class="col-sm-2 ms-0">
+              <label for="filtroCargo" class="form-label col-form-label-sm">Desde:</label>
+              <input type="date" v-model="fechaInicio" class="form-control mb-3 form-control-sm">
+            </div>
+            <div class="col-sm-2 ms-0">
+              <label for="filtroCargo" class="form-label col-form-label-sm">Hasta:</label>
+              <input type="date" v-model="fechaFin" class="form-control mb-3 form-control-sm">
+            </div>
+
+            <div class="col-sm-2 ms-0">
+                <label for="filtroCargo" class="form-label col-form-label-sm">Servicio</label>
+                <select v-model="filtroServicio" class="form-select form-select-sm mb-3">
+                  <option value="" disabled selected>Selecciona un servicio</option>
+                  <option v-for="servicio in listaDeServicios" :key="servicio" :value="servicio">{{ servicio }}</option>
+                </select>
+              </div>
+           
+
+          </div>
+
+
           <table class="table table-bordered table-sm">
             <thead class="thead-light">
               <tr>
@@ -24,7 +65,7 @@
             </tr>
             </thead>
             <tbody class="customtable">
-              <tr v-for="(reemplazo, index) in user" :key="index">
+              <tr v-for="(reemplazo, index) in reemplazosFiltrados" :key="index">
                 <td class="small bg-warning">{{ reemplazo.rut_saliente }}</td>
                 <td class="small bg-warning">{{ reemplazo.nombre_saliente }}</td>
                 <td class="small bg-warning">{{ reemplazo.apellido_saliente }}</td>
@@ -211,6 +252,11 @@ const user = ref<any[]>([]);
 const listaDeTurnos = ref<string[]>([]);
 const listaDeServicios = ref<string[]>([]);
 const filtroRut = ref("");
+const filtroRutSaliente = ref("");
+const filtroRutEntrante = ref("");
+const filtroServicio = ref("");
+const fechaInicio = ref("");
+const fechaFin = ref("");
 const usuarios = ref<any[]>([]); 
 const grupo = ref<number>(1); 
 
@@ -221,6 +267,43 @@ onMounted(async () => {
 
     listaDeTurnos.value = opciones.tiposTurno
     listaDeServicios.value = opciones.servicios
+
+});
+
+const limpiarFiltros = () => {
+  filtroRutSaliente.value = "";
+  filtroRutEntrante.value = "";
+  fechaInicio.value = "";
+  fechaFin.value = "";
+  filtroServicio.value = "";
+};
+
+const limpiarFechasYFiltros = () => {
+  if (filtroRutSaliente.value !== "" || filtroRutEntrante.value !== "" || fechaInicio.value !== "" || fechaFin.value !== "" || filtroServicio.value !="") {
+    limpiarFiltros();
+  }
+};
+
+
+const reemplazosFiltrados = computed(() => {
+  let filtradosPorFecha = user.value;
+  
+  if (fechaInicio.value) {
+    filtradosPorFecha = filtradosPorFecha.filter(reemplazo => reemplazo.fecha_inicio >= fechaInicio.value);
+  }
+  if (fechaFin.value) {
+    filtradosPorFecha = filtradosPorFecha.filter(reemplazo => reemplazo.fecha_termino <= fechaFin.value);
+  }
+  if (filtroRutSaliente.value !== "") {
+    filtradosPorFecha = filtradosPorFecha.filter(reemplazo => reemplazo.rut_saliente.startsWith(filtroRutSaliente.value));
+  } else if (filtroRutEntrante.value !== "") {
+    filtradosPorFecha = filtradosPorFecha.filter(reemplazo => reemplazo.rut_entrante.startsWith(filtroRutEntrante.value));
+  }
+  if (filtroServicio.value !== "") {
+    filtradosPorFecha = filtradosPorFecha.filter(reemplazo => reemplazo.servicio === filtroServicio.value);
+  }
+  
+  return filtradosPorFecha;
 });
 
 const usuariosFiltrados = computed(() => {

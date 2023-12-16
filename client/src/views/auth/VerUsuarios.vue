@@ -228,6 +228,7 @@ const mostrarModal = (index: number) => {
 const cerrarModal = () => {
   modalVisible.value = false;
   registroSeleccionado.value = {};
+  registroSeleccionado.value.tipo_cargo = 'TENS';
 };
 
 const guardarCambios = async () => {

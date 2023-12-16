@@ -16,6 +16,7 @@ const handleSidebarToggle = (value: boolean) => {
 <template>
   <div id="app">
 
+
     <NavBar />
     <Sidebar @sidebarToggle="handleSidebarToggle" />
     <main class="main-content" :class="{ 'expanded': isExpanded }">

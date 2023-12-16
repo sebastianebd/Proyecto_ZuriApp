@@ -136,11 +136,14 @@ async function submit(){
 function checkCargo() {
   if (registerData.tipo_cargo === 'TENS') {
     showHabilitado.value = true;
+    showServicio.value = false;
   } else if(registerData.tipo_cargo === 'JEFA SERVICIO'){
     showServicio.value = true;
+    showHabilitado.value = false;
   }
   else {
     showHabilitado.value = false;
+    showServicio.value = false;
     registerData.habilitado = '';
   }
 }

@@ -15,7 +15,7 @@
             <label for="password" class="form-label">Password</label>
             <input v-model="loginData.password" type="password" class="form-control" id="password">
           </div>
-          <button type="submit" class="btn btn-warning">Login</button>
+          <button type="submit" class="btn btn-warning">Ingresar</button>
         </form>
       </div>
     </div>
@@ -40,7 +40,7 @@ const errorMessage = ref<string>("")
 async function submit(){
   await authStore.login(loginData)
     .then(res => {
-      router.replace({name: "home"})
+      router.replace({name: "calendario"})
     })
     .catch(err => {
       errorMessage.value = err.message

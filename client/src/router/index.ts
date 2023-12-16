@@ -57,7 +57,8 @@ const router = createRouter({
       name: 'ver_historial',
       component: () => import('../views/auth/VerHistorial.vue'),
       meta: {requiresAuth: true}
-    }
+    },
+    
   ]
 })
 

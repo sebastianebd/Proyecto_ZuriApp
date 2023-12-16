@@ -9,7 +9,14 @@
 				<span class="material-icons">keyboard_double_arrow_right</span>
 			</button>
 		</div>
+		<h3>Calendario</h3>
+		<div class="menu">
+			<router-link to="calendario" class="button" >
+				<span class="material-icons">calendar_month</span>
+				<span class="text">Calendario</span>
+			</router-link>
 
+		</div>
 		<h3>Turnos</h3>
 		<div class="menu">
 			<router-link :to="{ name: 'reemplazos' }" class="button">
@@ -29,14 +36,7 @@
 				<span class="text">Usuarios</span>
 			</router-link>
 		</div>
-		<h3>Calendario</h3>
-		<div class="menu">
-			<router-link to="calendario" class="button" >
-				<span class="material-icons">calendar_month</span>
-				<span class="text">Calendario</span>
-			</router-link>
 
-		</div>
 
 		
 	</aside>
